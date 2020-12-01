@@ -1,9 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"github.com/niklasstich/AoC2020"
 )
 
 func main(){
-	AoC2020.Hello()
+	fmt.Print(AoC2020.Day1_2())
 }
