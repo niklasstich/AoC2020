@@ -1,5 +1,7 @@
 package AoC2020
 
+import "runtime"
+
 type tuple struct {
 	a int
 	b int
@@ -21,7 +23,7 @@ func Day1_1() int{
 	//according to the problem its safe to assume only one pair of numbers make up the number 2020
 	res := make(chan int, 1)
 	//to parallelize, run as many goroutines as we have logical processors
-	//for i := 0; i<runtime.NumCPU(); i++ {
+	for i := 0; i<runtime.NumCPU(); i++ {
 		go func() {
 			for w := range work {
 				if m[2020-w] {
@@ -29,7 +31,7 @@ func Day1_1() int{
 				}
 			}
 		}()
-	//}
+	}
 	correct := <- res
 	return correct * (2020-correct)
 }
