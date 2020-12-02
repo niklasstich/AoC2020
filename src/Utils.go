@@ -33,3 +33,24 @@ func ReadFileAsInts(filename string) ([]int, error) {
 	}
 	return nums, nil
 }
+
+func ReadAllLines(filename string) ([]string, error) {
+	file, err := os.Open(filename)
+	if err != nil {
+		return nil, err
+	}
+	var sarr []string
+	reader := bufio.NewReader(file)
+	for true {
+		line, err := reader.ReadString('\n')
+		if err != nil && err != io.EOF {
+			return nil, err
+		}
+		line = strings.TrimSpace(line)
+		if line=="" {
+			break
+		}
+		sarr = append(sarr, line)
+	}
+	return sarr, nil
+}
