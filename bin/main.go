@@ -6,6 +6,5 @@ import (
 )
 
 func main(){
-	fmt.Println(AoC2020.Day3_1())
-	fmt.Println(AoC2020.Day3_2())
+	fmt.Println(AoC2020.Day4_2())
 }

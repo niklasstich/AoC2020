@@ -40,17 +40,50 @@ func ReadAllLines(filename string) ([]string, error) {
 		return nil, err
 	}
 	var sarr []string
-	reader := bufio.NewReader(file)
-	for true {
-		line, err := reader.ReadString('\n')
-		if err != nil && err != io.EOF {
-			return nil, err
-		}
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		//i don't think this is needed
 		line = strings.TrimSpace(line)
 		if line=="" {
-			break
+			continue
 		}
 		sarr = append(sarr, line)
 	}
 	return sarr, nil
+}
+
+func ReadLinesSeperatedByEmptyLines(filename string) ([]string, error) {
+	file, err := os.Open(filename)
+	if err != nil {
+		return nil, err
+	}
+	var sarr []string
+	var buffer string
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		line = strings.TrimSpace(line)
+		// if line is an empty line, push buffer into sarr and clear it
+		if line=="" {
+			sarr = append(sarr, buffer)
+			buffer = ""
+			continue
+		}
+		// else just append line to buffer
+		if buffer != ""{
+			buffer += " "
+		}
+		buffer += line
+	}
+	return sarr, nil
+}
+
+func Contains(slice []string, s string) bool{
+	for _, item := range slice {
+		if s == item {
+			return true
+		}
+	}
+	return false
 }
