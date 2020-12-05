@@ -57,3 +57,17 @@ func TestDay4_2(t *testing.T) {
 		t.Errorf("Day4_2() gave %d, wants %d", got, want)
 	}
 }
+
+func TestDay5_1(t *testing.T) {
+	want := 994
+	if got := Day5_1(); got != want {
+		t.Errorf("Day5_1() gave %d, wants %d", got, want)
+	}
+}
+
+func TestDay5_2(t *testing.T) {
+	want := 741
+	if got := Day5_2(); got != want {
+		t.Errorf("Day5_2() gave %d, wants %d", got, want)
+	}
+}

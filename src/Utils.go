@@ -8,6 +8,14 @@ import (
 	"strings"
 )
 
+//bitwise complement
+const MaxUint = ^uint(0)
+const MinUint = 0
+
+//2's complement
+const MaxInt = int(MaxUint >> 1)
+const MinInt = -MaxInt - 1
+
 func ReadFileAsInts(filename string) ([]int, error) {
 	var nums []int
 	file, err := os.Open(filename)
@@ -45,7 +53,7 @@ func ReadAllLines(filename string) ([]string, error) {
 		line := scanner.Text()
 		//i don't think this is needed
 		line = strings.TrimSpace(line)
-		if line=="" {
+		if line == "" {
 			continue
 		}
 		sarr = append(sarr, line)
@@ -65,13 +73,13 @@ func ReadLinesSeperatedByEmptyLines(filename string) ([]string, error) {
 		line := scanner.Text()
 		line = strings.TrimSpace(line)
 		// if line is an empty line, push buffer into sarr and clear it
-		if line=="" {
+		if line == "" {
 			sarr = append(sarr, buffer)
 			buffer = ""
 			continue
 		}
 		// else just append line to buffer
-		if buffer != ""{
+		if buffer != "" {
 			buffer += " "
 		}
 		buffer += line
@@ -79,11 +87,21 @@ func ReadLinesSeperatedByEmptyLines(filename string) ([]string, error) {
 	return sarr, nil
 }
 
-func Contains(slice []string, s string) bool{
+func ContainsString(slice []string, s string) bool {
 	for _, item := range slice {
 		if s == item {
 			return true
 		}
 	}
 	return false
+}
+
+func SumInts(slice []int) (retval int, overflow bool) {
+	for _, i := range slice {
+		if retval+i < retval {
+			overflow = true
+		}
+		retval += i
+	}
+	return
 }
