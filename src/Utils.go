@@ -16,6 +16,20 @@ const MinUint = 0
 const MaxInt = int(MaxUint >> 1)
 const MinInt = -MaxInt - 1
 
+type sortRunes []rune
+
+func (s sortRunes) Less(i, j int) bool {
+	return s[i] < s[j]
+}
+
+func (s sortRunes) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+
+func (s sortRunes) Len() int {
+	return len(s)
+}
+
 func ReadFileAsInts(filename string) ([]int, error) {
 	var nums []int
 	file, err := os.Open(filename)
@@ -84,6 +98,9 @@ func ReadLinesSeperatedByEmptyLines(filename string) ([]string, error) {
 		}
 		buffer += line
 	}
+	if buffer != "" {
+		sarr = append(sarr, buffer)
+	}
 	return sarr, nil
 }
 
@@ -104,4 +121,19 @@ func SumInts(slice []int) (retval int, overflow bool) {
 		retval += i
 	}
 	return
+}
+
+//Gets distinct subset of slice with minimal allocations (1 map with keys only)
+func DistinctSlice(s []rune) (distinct []rune) {
+	seen := make(map[rune]struct{}, len(s)) //map for uniqueness
+	j := 0                                  //insertion index
+	for _, v := range s {
+		if _, ok := seen[v]; ok {
+			continue //value already in map which means its also in s
+		}
+		seen[v] = struct{}{}
+		s[j] = v
+		j++
+	}
+	return s[:j]
 }
